@@ -15,7 +15,7 @@ namespace cameraFaceIdSample
             this.InitializeComponent();
             this.Suspending += OnSuspending;
         }
-        public static MobileServiceClient MobileService = new MobileServiceClient("https://EnigmaMx0.azurewebsites.net");
+        public static MobileServiceClient MobileService = new MobileServiceClient("https://EnigmaMx.azurewebsites.net");
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
             Frame rootFrame = Window.Current.Content as Frame;

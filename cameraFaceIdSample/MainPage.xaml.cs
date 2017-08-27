@@ -31,6 +31,10 @@ using Windows.Globalization;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Navigation;
 using Windows.ApplicationModel.Core;
+using Windows.Foundation;
+using Windows.UI.Xaml.Controls.Maps;
+using Windows.UI.Xaml.Input;
+
 #endregion Libraries
 
 namespace cameraFaceIdSample
@@ -46,8 +50,8 @@ namespace cameraFaceIdSample
         CameraPreviewManager cameraPreviewManager;
         FacialDrawingHandler drawingHandler;
         private Geolocator _geolocator = null;
-        //static readonly string OxfordApiKey = "12476023b4c349939778c49e5db321d6";
-        static readonly string OxfordApiKey = "2bddec152651472a8cb690e00db31a43";
+        static readonly string OxfordApiKey = "12476023b4c349939778c49e5db321d6";
+        //static readonly string OxfordApiKey = "2bddec152651472a8cb690e00db31a43";Diego
         volatile TaskCompletionSource<SoftwareBitmap> copiedVideoFrameComplete;
         private int _port = 13337;
         private MediaCapture _mediaCap;
@@ -60,6 +64,8 @@ namespace cameraFaceIdSample
         private bool isListening;
         private StringBuilder dictatedTextBuilder;
         private static uint HResultPrivacyStatementDeclined = 0x80045509;
+        public double latitude =0;
+        public double longitude=0;
         #endregion Global Attributes
         public MainPage()
         {
@@ -457,7 +463,6 @@ namespace cameraFaceIdSample
         private async void Query(string idBuscar)
         {
             List<UsersUPT> lista = new List<UsersUPT>();
-            List<UsersUPT> lista1 = new List<UsersUPT>();
             Debug.WriteLine("El id a buscar es: " + idBuscar);
             try
             {
@@ -550,6 +555,8 @@ namespace cameraFaceIdSample
             {
                 tbLatitude.Text = position.Coordinate.Point.Position.Latitude.ToString();
                 tbLongitude.Text = position.Coordinate.Point.Position.Longitude.ToString();
+                this.latitude = position.Coordinate.Point.Position.Latitude;
+                this.longitude = position.Coordinate.Point.Position.Longitude;
                 await GetTown(position.Coordinate.Point.Position.Latitude, position.Coordinate.Point.Position.Longitude);
             }
         }
@@ -574,6 +581,7 @@ namespace cameraFaceIdSample
                     Debug.WriteLine("district: " + result.Locations[0].Address.District);
                     Debug.WriteLine("Country: " + result.Locations[0].Address.Country);
                     Debug.WriteLine("Street: " + result.Locations[0].Address.Street);
+                    Mapping();
                 }
             }
             catch (Exception e)
@@ -581,6 +589,68 @@ namespace cameraFaceIdSample
                 Debug.WriteLine(e.Message.ToString());
             }
 
+        }
+        private async void MyMap_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (MyMap.Is3DSupported)
+            {
+                // Estilo del mapa
+                MyMap.Style = MapStyle.Road;
+                // llave de bing
+                MyMap.MapServiceToken = "iXNUzZxjjglXbxTQI3u2~5bxFRFZESkZUVlrEuPtCxg~AmcMVqUdyZW960FDSNF28-MUt_Thri564P4V3oHEyVEATyV-dHL9DdkBBRuxsdmI";
+
+                BasicGeoposition geoPosition = new BasicGeoposition();
+                geoPosition.Latitude = this.latitude;
+               // geoPosition.Latitude = 20.0791441598;
+                geoPosition.Longitude = this.longitude;
+                //geoPosition.Longitude = -98.3714238064418;
+                // obtiene posición
+                Geopoint myPoint = new Geopoint(geoPosition);
+                // crea POI
+                MapIcon myPOI = new MapIcon { Location = myPoint, Title = "Position", NormalizedAnchorPoint = new Point(0.5, 1.0), ZIndex = 0 };
+                // Despliega una imagen de un MapIcon
+                myPOI.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/pin.png"));
+                // Agrega el mapa y lo centra
+                MyMap.MapElements.Add(myPOI);
+                MyMap.Center = myPoint;
+                MyMap.ZoomLevel = 10;
+                Debug.WriteLine("Coordenadas: "+latitude+" y "+longitude);
+                MapScene mapScene = MapScene.CreateFromLocationAndRadius(new Geopoint(geoPosition), 200, 150, 70);
+                await MyMap.TrySetSceneAsync(mapScene);
+            }
+        }
+        private void MyMap_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            MyMap_Loaded(sender, e);
+        }
+        public async void Mapping()
+        {
+            if (MyMap.Is3DSupported)
+            {
+                // Estilo del mapa
+                MyMap.Style = MapStyle.Road;
+                // llave de bing
+                MyMap.MapServiceToken = "iXNUzZxjjglXbxTQI3u2~5bxFRFZESkZUVlrEuPtCxg~AmcMVqUdyZW960FDSNF28-MUt_Thri564P4V3oHEyVEATyV-dHL9DdkBBRuxsdmI";
+
+                BasicGeoposition geoPosition = new BasicGeoposition();
+                geoPosition.Latitude = this.latitude;
+                 geoPosition.Latitude = 20.0791441598;
+                geoPosition.Longitude = this.longitude;
+                geoPosition.Longitude = -98.3714238064418;
+                // obtiene posición
+                Geopoint myPoint = new Geopoint(geoPosition);
+                // crea POI
+                MapIcon myPOI = new MapIcon { Location = myPoint, Title = "Position", NormalizedAnchorPoint = new Point(0.5, 1.0), ZIndex = 0 };
+                // Despliega una imagen de un MapIcon
+                myPOI.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/pin.png"));
+                // Agrega el mapa y lo centra
+                MyMap.MapElements.Add(myPOI);
+                MyMap.Center = myPoint;
+                MyMap.ZoomLevel = 10;
+                Debug.WriteLine("Coordenadas: " + latitude + " y " + longitude);
+                MapScene mapScene = MapScene.CreateFromLocationAndRadius(new Geopoint(geoPosition), 200, 150, 70);
+                await MyMap.TrySetSceneAsync(mapScene);
+            }
         }
         #endregion Geolocation
         #region Complete Process
@@ -624,7 +694,7 @@ namespace cameraFaceIdSample
                         {
                             Debug.WriteLine("ID de rostro: " + faces[0].FaceId);
                             Guid idGuid = Guid.Parse(faces[0].FaceId.ToString());
-                            SimilarPersistedFace[] facescomp = await faceService1.FindSimilarAsync(idGuid, "21122011", 1);
+                            SimilarPersistedFace[] facescomp = await faceService1.FindSimilarAsync(idGuid, "21122012", 1);
                             double confidence = Double.Parse(facescomp[0].Confidence.ToString());
                             string persistentID = facescomp[0].PersistedFaceId.ToString();
                             Debug.WriteLine("PID: " + facescomp[0].PersistedFaceId);
@@ -660,10 +730,11 @@ namespace cameraFaceIdSample
                                             //Video Stream
                                             //await StartListener();
                                             //await BeginRecording();
+                                            //Mapping();
                                         }
                                         else
                                         {
-                                            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                                            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                                             {
                                                 stackpanelNames.Visibility = Visibility.Collapsed;
                                                 stackpanelAlert.Width = 550;

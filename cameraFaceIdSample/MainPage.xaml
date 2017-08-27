@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:cameraFaceIdSample"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:maps="using:Windows.UI.Xaml.Controls.Maps"
     IsDoubleTapEnabled="False"
     IsHoldingEnabled="False"
     IsRightTapEnabled="False"
@@ -266,7 +267,7 @@
                 Width="700"
                 Margin="0,0,-274,0"
                 VerticalAlignment="Top"
-                Source="/Resources/caution.gif"
+                Source="/Resources/caution1.gif"
                 Visibility="Collapsed" />
             <Image
                 Name="imgNoFaces"
@@ -280,7 +281,7 @@
                 Margin="103,0,-287,0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Bottom"
-                Source="/Resources/ok.gif"
+                Source="/Resources/ok1.gif"
                 Visibility="Collapsed" />
             <Image
                 Name="imgGlasses"
@@ -308,7 +309,7 @@
                 x:Name="imgConnectivity"
                 Height="41"
                 Margin="188,0,64,0"
-                Source="/Resources/internet.gif"
+                Source="/Resources/internet1.gif"
                 Visibility="Collapsed" />
 
         </StackPanel>
@@ -367,6 +368,7 @@
                 AutoPlay="False"
                 Visibility="Collapsed" />
         </StackPanel>
+        <maps:MapControl x:Name="MyMap" Loaded="MyMap_Loaded" Tapped="MyMap_Tapped" ></maps:MapControl>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="FaceProcessingState">
                 <VisualState x:Name="Stopped" />
@@ -388,5 +390,6 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
+        
     </Grid>
 </Page>
