@@ -581,7 +581,7 @@ namespace cameraFaceIdSample
                     Debug.WriteLine("district: " + result.Locations[0].Address.District);
                     Debug.WriteLine("Country: " + result.Locations[0].Address.Country);
                     Debug.WriteLine("Street: " + result.Locations[0].Address.Street);
-                    Mapping();
+                    Mapping(latitude,longitude);
                 }
             }
             catch (Exception e)
@@ -621,9 +621,9 @@ namespace cameraFaceIdSample
         }
         private void MyMap_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            MyMap_Loaded(sender, e);
+            Debug.WriteLine("////////////////\nHiciste Tap en el Mapa\n////////////////\n");
         }
-        public async void Mapping()
+        public async void Mapping(double lat,double lon)
         {
             if (MyMap.Is3DSupported)
             {
@@ -633,10 +633,10 @@ namespace cameraFaceIdSample
                 MyMap.MapServiceToken = "iXNUzZxjjglXbxTQI3u2~5bxFRFZESkZUVlrEuPtCxg~AmcMVqUdyZW960FDSNF28-MUt_Thri564P4V3oHEyVEATyV-dHL9DdkBBRuxsdmI";
 
                 BasicGeoposition geoPosition = new BasicGeoposition();
-                geoPosition.Latitude = this.latitude;
-                 geoPosition.Latitude = 20.0791441598;
-                geoPosition.Longitude = this.longitude;
-                geoPosition.Longitude = -98.3714238064418;
+                geoPosition.Latitude = lat;
+                //geoPosition.Latitude = 20.0791441598;
+                geoPosition.Longitude = lon;
+                //geoPosition.Longitude = -98.3714238064418;
                 // obtiene posición
                 Geopoint myPoint = new Geopoint(geoPosition);
                 // crea POI
@@ -673,6 +673,9 @@ namespace cameraFaceIdSample
 
                 {
                     ScanModeTxt.Text = "SCAN MODE: ENABLED";
+                    MyMap.Width = 100;
+                    MyMap.Height = 100;
+                    MyMap.Margin = new Thickness(5, -300, 0, 0);
                 });
                 try
                 {
@@ -843,5 +846,20 @@ namespace cameraFaceIdSample
             ContinuousRecognize_Click(sender, e);
         }
         #endregion Events
+
+        private void MyMap_MapElementClick(MapControl sender, MapElementClickEventArgs args)
+        {
+            Debug.WriteLine("Hiciste Tap en el mapa");
+        }
+
+        private void MyMap_MapDoubleTapped(MapControl sender, MapInputEventArgs args)
+        {
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => {
+                Debug.WriteLine("Hiciste DoubleTap en el mapa");
+                MyMap.Width = 300;
+                MyMap.Height = 300;
+                MyMap.Margin = new Thickness(105, -146, 0, 0);
+            });
+        }
     }
 }
