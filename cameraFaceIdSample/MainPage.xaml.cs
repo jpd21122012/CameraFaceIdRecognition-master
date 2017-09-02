@@ -64,8 +64,8 @@ namespace cameraFaceIdSample
         private bool isListening;
         private StringBuilder dictatedTextBuilder;
         private static uint HResultPrivacyStatementDeclined = 0x80045509;
-        public double latitude =0;
-        public double longitude=0;
+        public double latitude = 0;
+        public double longitude = 0;
         #endregion Global Attributes
         public MainPage()
         {
@@ -581,7 +581,7 @@ namespace cameraFaceIdSample
                     Debug.WriteLine("district: " + result.Locations[0].Address.District);
                     Debug.WriteLine("Country: " + result.Locations[0].Address.Country);
                     Debug.WriteLine("Street: " + result.Locations[0].Address.Street);
-                    Mapping(latitude,longitude);
+                    Mapping(latitude, longitude);
                 }
             }
             catch (Exception e)
@@ -595,13 +595,13 @@ namespace cameraFaceIdSample
             if (MyMap.Is3DSupported)
             {
                 // Estilo del mapa
-                MyMap.Style = MapStyle.Road;
+                MyMap.Style = MapStyle.Aerial3DWithRoads;
                 // llave de bing
                 MyMap.MapServiceToken = "iXNUzZxjjglXbxTQI3u2~5bxFRFZESkZUVlrEuPtCxg~AmcMVqUdyZW960FDSNF28-MUt_Thri564P4V3oHEyVEATyV-dHL9DdkBBRuxsdmI";
 
                 BasicGeoposition geoPosition = new BasicGeoposition();
                 geoPosition.Latitude = this.latitude;
-               // geoPosition.Latitude = 20.0791441598;
+                // geoPosition.Latitude = 20.0791441598;
                 geoPosition.Longitude = this.longitude;
                 //geoPosition.Longitude = -98.3714238064418;
                 // obtiene posición
@@ -614,7 +614,7 @@ namespace cameraFaceIdSample
                 MyMap.MapElements.Add(myPOI);
                 MyMap.Center = myPoint;
                 MyMap.ZoomLevel = 10;
-                Debug.WriteLine("Coordenadas: "+latitude+" y "+longitude);
+                Debug.WriteLine("Coordenadas: " + latitude + " y " + longitude);
                 MapScene mapScene = MapScene.CreateFromLocationAndRadius(new Geopoint(geoPosition), 200, 150, 70);
                 await MyMap.TrySetSceneAsync(mapScene);
             }
@@ -623,7 +623,7 @@ namespace cameraFaceIdSample
         {
             Debug.WriteLine("////////////////\nHiciste Tap en el Mapa\n////////////////\n");
         }
-        public async void Mapping(double lat,double lon)
+        public async void Mapping(double lat, double lon)
         {
             if (MyMap.Is3DSupported)
             {
@@ -854,7 +854,8 @@ namespace cameraFaceIdSample
 
         private void MyMap_MapDoubleTapped(MapControl sender, MapInputEventArgs args)
         {
-            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => {
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
                 Debug.WriteLine("Hiciste DoubleTap en el mapa");
                 MyMap.Width = 300;
                 MyMap.Height = 300;

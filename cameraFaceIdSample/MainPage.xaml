@@ -354,7 +354,7 @@
             Foreground="Red"
             TextWrapping="WrapWholeWords"
             Visibility="Collapsed" />
-        <TextBlock
+        <TextBlock  
             x:Name="hlOpenPrivacySettings"
             TextWrapping="WrapWholeWords"
             Visibility="Collapsed">

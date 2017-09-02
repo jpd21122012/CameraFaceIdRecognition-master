@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using cameraFaceIdSample;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Media.SpeechSynthesis;
 using Windows.UI.Xaml.Controls;
 using System.Diagnostics;
-using Windows.UI.Xaml.Media;
 using System.IO;
 
 namespace cameraFaceIdSample.Classes
