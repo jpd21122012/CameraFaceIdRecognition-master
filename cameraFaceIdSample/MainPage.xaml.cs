@@ -34,6 +34,7 @@ using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.UI.Xaml.Controls.Maps;
 using Windows.UI.Xaml.Input;
+using Windows.UI.ViewManagement;
 
 #endregion Libraries
 
@@ -44,26 +45,27 @@ namespace cameraFaceIdSample
         #region Global Attributes
         IMobileServiceTable<UsersUPT> userTableObject = App.MobileService.GetTable<UsersUPT>();
         bool CheckNetwork = true;
+        bool isExpanded=false;
         string currentVisualState;
         FaceDetectionFrameProcessor faceDetectionProcessor;
         CancellationTokenSource requestStopCancellationToken;
         CameraPreviewManager cameraPreviewManager;
         FacialDrawingHandler drawingHandler;
-        private Geolocator _geolocator = null;
+        Geolocator _geolocator = null;
         static readonly string OxfordApiKey = "12476023b4c349939778c49e5db321d6";
         //static readonly string OxfordApiKey = "2bddec152651472a8cb690e00db31a43";Diego
         volatile TaskCompletionSource<SoftwareBitmap> copiedVideoFrameComplete;
-        private int _port = 13337;
-        private MediaCapture _mediaCap;
-        private StreamSocketListener _listener;
-        private ManualResetEvent _signal = new ManualResetEvent(false);
-        private List<Connection> _connections = new List<Connection>();
+        int _port = 13337;
+        MediaCapture _mediaCap;
+        StreamSocketListener _listener;
+        ManualResetEvent _signal = new ManualResetEvent(false);
+        List<Connection> _connections = new List<Connection>();
         internal CurrentVideo CurrentVideo = new CurrentVideo();
         Synthesizer sinth;
-        private SpeechRecognizer speechRecognizer;
-        private bool isListening;
-        private StringBuilder dictatedTextBuilder;
-        private static uint HResultPrivacyStatementDeclined = 0x80045509;
+        SpeechRecognizer speechRecognizer;
+        bool isListening;
+        StringBuilder dictatedTextBuilder;
+        static uint HResultPrivacyStatementDeclined = 0x80045509;
         public double latitude = 0;
         public double longitude = 0;
         #endregion Global Attributes
@@ -71,6 +73,7 @@ namespace cameraFaceIdSample
         {
             #region Initialize Components
             InitializeComponent();
+            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.FullScreen;
             sinth = new Synthesizer(listboxOcult);
             isListening = false;
             dictatedTextBuilder = new StringBuilder();
@@ -836,7 +839,7 @@ namespace cameraFaceIdSample
             });
         }
         #endregion Complete Process
-        #region Events
+        #region EventHandlers
         private void Tap(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             ProcessAll();
@@ -845,22 +848,27 @@ namespace cameraFaceIdSample
         {
             ContinuousRecognize_Click(sender, e);
         }
-        #endregion Events
-
-        private void MyMap_MapElementClick(MapControl sender, MapElementClickEventArgs args)
-        {
-            Debug.WriteLine("Hiciste Tap en el mapa");
-        }
-
         private void MyMap_MapDoubleTapped(MapControl sender, MapInputEventArgs args)
         {
             Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                Debug.WriteLine("Hiciste DoubleTap en el mapa");
-                MyMap.Width = 300;
-                MyMap.Height = 300;
-                MyMap.Margin = new Thickness(105, -146, 0, 0);
+                if (!isExpanded)
+                {
+                    Debug.WriteLine("Hiciste DoubleTap en el mapa");
+                    MyMap.Width = 300;
+                    MyMap.Height = 300;
+                    MyMap.Margin = new Thickness(105, -146, 0, 0);
+                    isExpanded = true;
+                }
+                else
+                {
+                    MyMap.Width = 100;
+                    MyMap.Height = 100;
+                    MyMap.Margin = new Thickness(5, -300, 0, 0);
+                }
+               
             });
         }
+        #endregion
     }
 }

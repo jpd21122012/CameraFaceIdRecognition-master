@@ -368,7 +368,7 @@
                 AutoPlay="False"
                 Visibility="Collapsed" />
         </StackPanel>
-        <maps:MapControl x:Name="MyMap" Loaded="MyMap_Loaded" Tapped="MyMap_Tapped" Grid.RowSpan="2" Grid.ColumnSpan="2" Margin="5,-300,0,0" Width="100" Height="100" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" MapElementClick="MyMap_MapElementClick" MapDoubleTapped="MyMap_MapDoubleTapped" />
+        <maps:MapControl x:Name="MyMap" Loaded="MyMap_Loaded" Grid.RowSpan="2" Grid.ColumnSpan="2" Margin="5,-300,0,0" Width="100" Height="100" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" MapDoubleTapped="MyMap_MapDoubleTapped" />
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="FaceProcessingState">
                 <VisualState x:Name="Stopped" />
