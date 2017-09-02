@@ -865,6 +865,7 @@ namespace cameraFaceIdSample
                     MyMap.Width = 100;
                     MyMap.Height = 100;
                     MyMap.Margin = new Thickness(5, -300, 0, 0);
+                    isExpanded = false;
                 }
                
             });
