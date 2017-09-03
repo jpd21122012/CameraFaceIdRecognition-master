@@ -598,31 +598,33 @@ namespace cameraFaceIdSample
         {
             if (MyMap.Is3DSupported)
             {
-                // Estilo del mapa
                 MyMap.Style = MapStyle.Aerial3DWithRoads;
-                // llave de bing
                 MyMap.MapServiceToken = "iXNUzZxjjglXbxTQI3u2~5bxFRFZESkZUVlrEuPtCxg~AmcMVqUdyZW960FDSNF28-MUt_Thri564P4V3oHEyVEATyV-dHL9DdkBBRuxsdmI";
-
-                
-                geoPosition.Latitude = this.latitude;
+				geoPosition.Latitude = this.latitude;
                 //geoPosition.Latitude = 20.0791441598;
                 geoPosition.Longitude = this.longitude;
                 //geoPosition.Longitude = -98.3714238064418;
-                // obtiene posición
                 Geopoint myPoint = new Geopoint(geoPosition);
-                // crea POI
                 MapIcon myPOI = new MapIcon { Location = myPoint, Title = "Position", NormalizedAnchorPoint = new Point(0.5, 1.0), ZIndex = 0 };
-                // Despliega una imagen de un MapIcon
                 myPOI.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/pin.png"));
-                // Agrega el mapa y lo centra
                 MyMap.MapElements.Add(myPOI);
                 MyMap.Center = myPoint;
-                MyMap.ZoomLevel = 10;
+                MyMap.ZoomLevel = 3;
                 Debug.WriteLine("Coordenadas: " + latitude + " y " + longitude);
-                MapScene mapScene = MapScene.CreateFromLocationAndRadius(new Geopoint(geoPosition), 200, 150, 70);
-                MyMap.Style = MapStyle.Aerial3DWithRoads;
-                await MyMap.TrySetSceneAsync(mapScene);
+                MapScene mapScene = MapScene.CreateFromLocationAndRadius(new Geopoint(geoPosition),500, 150, 70);
+                await MyMap.TrySetSceneAsync(mapScene,MapAnimationKind.Bow);
             }
+			   else
+			{
+			// If 3D views are not supported, display dialog.
+			ContentDialog viewNotSupportedDialog = new ContentDialog()
+			{
+				Title = "3D is not supported",
+				Content = "\n3D views are not supported on this device.",
+				PrimaryButtonText = "OK"
+			};
+      await viewNotSupportedDialog.ShowAsync();
+   }
         }
         public async void Mapping(double lat, double lon)
         {
