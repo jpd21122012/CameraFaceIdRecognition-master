@@ -69,41 +69,6 @@
                 Text="SCAN MODE: DISABLED"
                 TextWrapping="Wrap" />
         </StackPanel>
-        <Button
-            x:Name="btnContinuousRecognize"
-            Grid.Row="2"
-            Grid.Column="7"
-            Width="62"
-            Height="60"
-            Margin="0,0,20,20"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Bottom"
-            HorizontalContentAlignment="Left"
-            VerticalContentAlignment="Top"
-            Background="Transparent"
-            Click="ContinuousRecognize_Click"
-            IsEnabled="False"
-            RenderTransformOrigin="0.5,0.5">
-            <Border
-                Width="37"
-                Height="37"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Background="Transparent"
-                BorderBrush="White"
-                BorderThickness="1,1,1,2"
-                CornerRadius="100">
-                <Border
-                    Width="30"
-                    Height="30"
-                    Background="White"
-                    CornerRadius="100">
-                    <Viewbox Width="25">
-                        <SymbolIcon Foreground="Black" Symbol="Microphone" />
-                    </Viewbox>
-                </Border>
-            </Border>
-        </Button>
         <StackPanel
             x:Name="stackpanel"
             Grid.RowSpan="3"
@@ -267,29 +232,29 @@
                 Width="700"
                 Margin="0,0,-274,0"
                 VerticalAlignment="Top"
-                Source="/Resources/caution1.gif"
-                Visibility="Collapsed" />
+                Source="/Assets/Animation/positive1.gif"
+                Visibility="Collapsed" Stretch="UniformToFill"/>
             <Image
                 Name="imgNoFaces"
                 Height="85"
                 Margin="46,0,-198,0"
                 Source="/Resources/noFaces.gif"
-                Visibility="Collapsed" />
+                Visibility="Collapsed" Stretch="UniformToFill"/>
             <Image
                 x:Name="imgClean"
                 Height="77"
                 Margin="103,0,-287,0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Bottom"
-                Source="/Resources/ok1.gif"
-                Visibility="Collapsed" />
+                Source="/Assets/Animation/nomatch1.gif"
+                Visibility="Collapsed" Stretch="UniformToFill"/>
             <Image
                 Name="imgGlasses"
                 Height="43"
                 Margin="0,0,105,0"
                 VerticalAlignment="Top"
                 Source="/Resources/glasses.gif"
-                Visibility="Collapsed" />
+                Visibility="Collapsed" Stretch="UniformToFill"/>
         </StackPanel>
         <StackPanel
             x:Name="stackpanelInternet"
@@ -309,8 +274,8 @@
                 x:Name="imgConnectivity"
                 Height="41"
                 Margin="188,0,64,0"
-                Source="/Resources/internet1.gif"
-                Visibility="Collapsed" />
+                Source="/Assets/Animation/internet1.gif"
+                Visibility="Visible" Stretch="UniformToFill" />
 
         </StackPanel>
         <ListBox
@@ -331,7 +296,6 @@
             Margin="10,10,0,0"
             SelectionChanged="cbLanguageSelection_SelectionChanged"
             Visibility="Collapsed" />
-
         <Button
             x:Name="btnClearText"
             Margin="10,125,0,115"
@@ -368,6 +332,41 @@
                 AutoPlay="False"
                 Visibility="Collapsed" />
         </StackPanel>
+        <Button
+            x:Name="btnContinuousRecognize"
+            Grid.Row="2"
+            Grid.Column="7"
+            Width="62"
+            Height="60"
+            Margin="0,0,20,20"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            HorizontalContentAlignment="Left"
+            VerticalContentAlignment="Top"
+            Background="Transparent"
+            Click="ContinuousRecognize_Click"
+            IsEnabled="False"
+            RenderTransformOrigin="0.5,0.5">
+            <Border
+                Width="37"
+                Height="37"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Background="Transparent"
+                BorderBrush="White"
+                BorderThickness="1,1,1,2"
+                CornerRadius="100">
+                <Border
+                    Width="30"
+                    Height="30"
+                    Background="White"
+                    CornerRadius="100">
+                    <Viewbox Width="25">
+                        <SymbolIcon Foreground="Black" Symbol="Microphone" />
+                    </Viewbox>
+                </Border>
+            </Border>
+        </Button>
         <maps:MapControl x:Name="MyMap" Loaded="MyMap_Loaded" Grid.RowSpan="2" Grid.ColumnSpan="2" Margin="5,-300,0,0" Width="100" Height="100" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" MapDoubleTapped="MyMap_MapDoubleTapped" />
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="FaceProcessingState">

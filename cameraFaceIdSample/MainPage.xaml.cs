@@ -36,7 +36,7 @@ using Windows.UI.Xaml.Controls.Maps;
 using Windows.UI.Xaml.Input;
 using Windows.UI.ViewManagement;
 
-#endregion Libraries
+#endregion Libraries    
 
 namespace cameraFaceIdSample
 {
@@ -68,6 +68,7 @@ namespace cameraFaceIdSample
         static uint HResultPrivacyStatementDeclined = 0x80045509;
         public double latitude = 0;
         public double longitude = 0;
+        BasicGeoposition geoPosition = new BasicGeoposition();
         #endregion Global Attributes
         public MainPage()
         {
@@ -602,9 +603,9 @@ namespace cameraFaceIdSample
                 // llave de bing
                 MyMap.MapServiceToken = "iXNUzZxjjglXbxTQI3u2~5bxFRFZESkZUVlrEuPtCxg~AmcMVqUdyZW960FDSNF28-MUt_Thri564P4V3oHEyVEATyV-dHL9DdkBBRuxsdmI";
 
-                BasicGeoposition geoPosition = new BasicGeoposition();
+                
                 geoPosition.Latitude = this.latitude;
-                // geoPosition.Latitude = 20.0791441598;
+                //geoPosition.Latitude = 20.0791441598;
                 geoPosition.Longitude = this.longitude;
                 //geoPosition.Longitude = -98.3714238064418;
                 // obtiene posición
@@ -619,12 +620,9 @@ namespace cameraFaceIdSample
                 MyMap.ZoomLevel = 10;
                 Debug.WriteLine("Coordenadas: " + latitude + " y " + longitude);
                 MapScene mapScene = MapScene.CreateFromLocationAndRadius(new Geopoint(geoPosition), 200, 150, 70);
+                MyMap.Style = MapStyle.Aerial3DWithRoads;
                 await MyMap.TrySetSceneAsync(mapScene);
             }
-        }
-        private void MyMap_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            Debug.WriteLine("////////////////\nHiciste Tap en el Mapa\n////////////////\n");
         }
         public async void Mapping(double lat, double lon)
         {
