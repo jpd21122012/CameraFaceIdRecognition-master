@@ -1,4 +1,4 @@
-![SplashScreen.scale-400.png](.attachments/SplashScreen.scale-400-d42e21ea-ab8a-41b1-af54-e9c16b72e986.png)
+![SplashScreen.scale-400.png](ReadMeImages/SplashScreen.scale-400.png)
 
 # **What is Intelligent Identification Security System?**
 
